@@ -18,8 +18,8 @@ from camera import VideoCamera
 import numpy as np
 import cv2
 from PIL import Image
-from io import BytesIO
-import StringIO
+
+shape = (480, 640, 3)
 
 points_perMove = 2.9
 app = Flask(__name__)
@@ -40,15 +40,15 @@ def index():
     return render_template('index.html')
 
 def gen(camera):
-    last_frame = np.zeros((720, 1280, 3))
+    last_frame = np.zeros(shape)
     last_intense = 0
     count = 0
     threshold = 0.03
     mask_arr = None
-    bias = np.zeros((720,1280,3))
+    bias = np.zeros(shape)
     q = 50
     while True:
-        t_frame = np.zeros((720, 1280, 3))
+        t_frame = np.zeros(shape)
         frame = None
         frame = camera.get_frame()
         t_frame = frame
