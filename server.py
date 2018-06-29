@@ -8,7 +8,7 @@ from PIL import Image
 CAMERA = VideoCamera()
 SHAPE = (480, 640, 3)
 POINTS = 2.9
-
+QUALITY = 100
 def get_points(q):
     if(q >= 100):
         return 100
@@ -29,10 +29,11 @@ def gen(CAMERA):
     q = 50
     while True:
         t_frame = CAMERA.get_frame()
+        d_frame = (t_frame) - (last_frame)
         intense_per_pix = (d_frame/255.)**2
         intense = (np.mean(intense_per_pix))
 
-        d_frame = (t_frame) - (last_frame)
+        
         d_intense = intense - last_intense
         #print(intense_per_pix)
         #print("Current quality: ", q)
@@ -43,7 +44,7 @@ def gen(CAMERA):
             bias = np.where(bias > 24, bias, 0)
             #print("something moving: ", intense-last_intense)
         q = get_points(q)
-        yield b'--frame\r\n' + b'Content-Type: image/jpeg\r\n\r\n'+ frame_transform2bytes(t_frame, int(q))+ b'\r\n\r\n'
+        yield b'--frame\r\n' + b'Content-Type: image/jpeg\r\n\r\n'+ frame_transform2bytes(t_frame, int(QUALITY))+ b'\r\n\r\n'
 
         last_frame = t_frame
         last_intense = intense
@@ -55,7 +56,7 @@ class Server(object):
         print("Stream Server Running on http://{}:{}/".format(host, port))
     def get_client_data(self, client):
         req = (client.recv(1000)).decode('utf-8')
-        print(req)
+        #print(req)
         req_type = req.split()[0]
         #request = req.split()[1].partition("/")[-1]
         return req_type, req
@@ -85,6 +86,7 @@ class Server(object):
                 http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
                 client.send(http_req)
                 for frame_rep in gen(CAMERA):
+                    print("Sent BYTES: ", len(frame_rep))
                     client.send(frame_rep)
             elif(content == ""):
                 html = open("index.html", 'r')
@@ -105,7 +107,14 @@ class Server(object):
             client.send(http_req)
     
     def post_handler(self, content, client):
-        content = (content.split("\n\n")[1]).split("=")[-1]
+        global QUALITY
+        content = (content.split("\r\n\r\n")[1])
+        print(content)
+        content = content.split("=")[-1]
+        if(content == "HIGH"):
+            QUALITY = 100
+        elif(content == "LOW"):
+            QUALITY = 1
         print("POST CONTENT: ", content)
         pass
 

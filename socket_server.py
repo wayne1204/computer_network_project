@@ -53,7 +53,7 @@ def gen(camera):
 
 def get_client_data(c):
     resp = (client.recv(1000)).decode('utf-8')
-    #print(resp)
+    print(resp)
     request = resp.split()[1].partition("/")[-1]
     return request
 
