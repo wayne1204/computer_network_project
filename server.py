@@ -105,7 +105,7 @@ class Server(object):
             client.send(http_req)
     
     def post_handler(self, content):
-        content = content.split("\n\n")[1].split("=")[-1]
+        content = (content.split("\n\n")[1]).split("=")[-1]
         print("POST CONTENT: ," content)
         pass
 
