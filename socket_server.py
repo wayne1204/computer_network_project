@@ -55,61 +55,53 @@ def get_client_data(c):
     resp = (client.recv(1000)).decode('utf-8')
     #resp = unicode(resp, errors='replace')
     print(resp)
-    request = resp.split()[1].partition("/")[2]
+    request = resp.split()[1].partition("/")[-1]
     return request
 while(True):
     s.listen(0)
-    print("The Web server for HW2 is running..")
+    print("Stream Server Running on http://{}:{}/".format(HOST, PORT))
     while(True):
-        #try:
-            client, address = s.accept()
-            print(str(address)+" connected")
+        client, address = s.accept()
+        print(str(address)+" connected")
+        try:
+            request = get_client_data(client)
+            print("Get request: ",request)
             try:
-                request = get_client_data(client)
-                print(request)
-                file_req = request.partition(".")
-                try:
-                    if(file_req[len(file_req)-1] == "png"):
-                        #image = open("./"+request, 'rb')
-                        #body = image.read();        
-                        body = frame_transform2bytes(camera.get_frame(), 100)
-                        http_req = bytes("HTTP/1.0 200 OK\nContent-Type: image/png\n\n", 'utf-8') + body
-                        client.send(http_req)
-                    elif(file_req[-1] == "stream"):
-                        print("FUCK")
-                        http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
-                        client.send(http_req)
-                        print("FFFF")
-                        for frame_rep in gen(camera):
-                            client.send(frame_rep)
-                            #client.send(body)
-
-                    elif(file_req[len(file_req)-1] == "html"):
-                        html = open(request, 'r')
-                        body = html.read()
-                        http_req = bytes("HTTP/1.0 200 OK\nContent-Type: text/html\n\n"+body, 'utf-8')
-                        client.send(http_req)
-                        html.close()
-                    else:
-                        html = open(request, 'r')
-                except Exception as e:
-                    print(e)
-                    body = """
-                        <html>
-                        <body>
-                        <h1>404 Not found</h1>
-                        </body>
-                        </html>
-                        """
-                    http_req = bytes("HTTP/1.0 404 Not found\nContent-Type: text/html\n\n"+body, 'utf-8')
+                if(request == "png"):
+                    #image = open("./"+request, 'rb')
+                    #body = image.read();        
+                    body = frame_transform2bytes(camera.get_frame(), 100)
+                    http_req = bytes("HTTP/1.0 200 OK\nContent-Type: image/png\n\n", 'utf-8') + body
                     client.send(http_req)
+                elif(request == "stream"):
+                    print("FUCK")
+                    http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
+                    client.send(http_req)
+                    print("FFFF")
+                    for frame_rep in gen(camera):
+                        client.send(frame_rep)
+                        #client.send(body)
+
+                elif(request == "html"):
+                    html = open(request, 'r')
+                    body = html.read()
+                    http_req = bytes("HTTP/1.0 200 OK\nContent-Type: text/html\n\n"+body, 'utf-8')
+                    client.send(http_req)
+                    html.close()
+                else:
+                    html = open(request, 'r')
             except Exception as e:
                 print(e)
-                print("except")
-            client.close()
-            '''
-        except KeyboardInterrupt:
-            print("Exit")
-            s.close()
-            sys.exit()
-            '''
+                body = """
+                    <html>
+                    <body>
+                    <h1>404 Not found</h1>
+                    </body>
+                    </html>
+                    """
+                http_req = bytes("HTTP/1.0 404 Not found\nContent-Type: text/html\n\n"+body, 'utf-8')
+                client.send(http_req)
+        except Exception as e:
+            print(e)
+            print("except")
+        client.close()
