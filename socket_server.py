@@ -9,12 +9,11 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 camera = VideoCamera()
 shape = (480, 640, 3)
-
 points_perMove = 2.9
+
 def frame_transform2bytes(frame, quality):
     ret, jpeg = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, quality])
     return jpeg.tobytes()
-
 
 def get_points(q):
     if(q >= 100):
@@ -22,6 +21,7 @@ def get_points(q):
     elif(q <= 1):
         return 1
     return q
+
 def gen(camera):
     last_frame = np.zeros(shape)
     last_intense = 0
@@ -57,6 +57,7 @@ def get_client_data(c):
     print(resp)
     request = resp.split()[1].partition("/")[-1]
     return request
+
 while(True):
     s.listen(0)
     print("Stream Server Running on http://{}:{}/".format(HOST, PORT))
@@ -74,22 +75,16 @@ while(True):
                     http_req = bytes("HTTP/1.0 200 OK\nContent-Type: image/png\n\n", 'utf-8') + body
                     client.send(http_req)
                 elif(request == "stream"):
-                    print("FUCK")
                     http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
                     client.send(http_req)
-                    print("FFFF")
                     for frame_rep in gen(camera):
                         client.send(frame_rep)
-                        #client.send(body)
-
-                elif(request == "html"):
-                    html = open(request, 'r')
+                elif(request == ""):
+                    html = open("index.html", 'r')
                     body = html.read()
                     http_req = bytes("HTTP/1.0 200 OK\nContent-Type: text/html\n\n"+body, 'utf-8')
                     client.send(http_req)
                     html.close()
-                else:
-                    html = open(request, 'r')
             except Exception as e:
                 print(e)
                 body = """
