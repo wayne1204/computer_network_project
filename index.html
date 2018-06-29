@@ -71,7 +71,7 @@
         <h3>Streamer: Unknown</h1>
           <h5 class="w3-padding-32">Hi! Fuck you.</h5>
 
-          <img id="bg" src="/123.stream">
+          <img id="bg" src="/stream">
 
           <p class="w3-text-grey">Terms of Service 1. Introduction; Your Agreement to these Terms of Service. PLEASE READ THESE TERMS OF SERVICE
             CAREFULLY. THIS IS A BINDING CONTRACT. Welcome to the services operated by Twitch Interactive, Inc. (with its
@@ -85,9 +85,13 @@
         <p>
           *
         </p>
+        <form action="" method="post">
+          <button name="foo" value="post">Post</button>
+        </form>
+         
         <button class="w3-button w3-red w3-padding-large w3-large w3-hover-opacity" id="demo"> Donate </button>
-        <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top w3-hover-opacity">Low Quality</button>
-        <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top w3-hover-opacity">High Quality</button>
+        <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top w3-hover-opacity" onclick="post('', {name: 'Low'})">Low Quality</button>
+        <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top w3-hover-opacity" onclick="post('', {name: 'High'})">High Quality</button>
         <!-- <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top">Points</button> -->
       </div>
     </div>
@@ -113,12 +117,35 @@
     </div>
   </footer>
 
-  <!-- <script>
+  <script>
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
   document.getElementById("demo").innerHTML = "donate success!";
 }
-</script> -->
+  function post(path, params, method) {
+    method = "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for (var key in params) {
+      if (params.hasOwnProperty(key)) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+
+        form.appendChild(hiddenField);
+      }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
 
 </body>
 
