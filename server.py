@@ -55,6 +55,7 @@ class Server(object):
         print("Stream Server Running on http://{}:{}/".format(host, port))
     
     def run(self):
+        s.listen(0)
         while(True):
             client, address = self.s.accept()
             print(str(address)+" connected")
