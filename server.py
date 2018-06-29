@@ -106,7 +106,7 @@ class Server(object):
     
     def post_handler(self, content):
         content = (content.split("\n\n")[1]).split("=")[-1]
-        print("POST CONTENT: ," content)
+        print("POST CONTENT: ", content)
         pass
 
 
