@@ -4,7 +4,7 @@ from camera import VideoCamera
 import cv2
 import numpy as np
 from PIL import Image
-HOST, PORT = "", 8081
+HOST, PORT = "", int(sys.argv[1])
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 camera = VideoCamera()
@@ -27,7 +27,6 @@ def gen(camera):
     last_intense = 0
     count = 0
     threshold = 0.03
-    mask_arr = None
     bias = np.zeros(shape)
     q = 50
     while True:
@@ -48,13 +47,13 @@ def gen(camera):
             q += points_perMove
             #print("something moving: ", intense-last_intense)
         q = get_points(q)
-
-        yield(b'--frame\r\n' + b'Content-Type: image/jpeg\r\n\r\n' + frame_transform2bytes(t_frame, int(q)) + b'\r\n\r\n')
+        yield b'--frame\r\n' + b'Content-Type: image/jpeg\r\n\r\n'+ frame_transform2bytes(t_frame, int(q))+ b'\r\n\r\n'
         last_frame = frame
         last_intense = intense
 
 def get_client_data(c):
-    resp = (client.recv(1000)).decode('ascii')
+    resp = (client.recv(1000)).decode('utf-8')
+    #resp = unicode(resp, errors='replace')
     print(resp)
     request = resp.split()[1].partition("/")[2]
     return request
@@ -77,11 +76,13 @@ while(True):
                         http_req = bytes("HTTP/1.0 200 OK\nContent-Type: image/png\n\n", 'utf-8') + body
                         client.send(http_req)
                     elif(file_req[-1] == "stream"):
-                       
+                        print("FUCK")
                         http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
                         client.send(http_req)
+                        print("FFFF")
                         for frame_rep in gen(camera):
                             client.send(frame_rep)
+                            #client.send(body)
 
                     elif(file_req[len(file_req)-1] == "html"):
                         html = open(request, 'r')
@@ -100,9 +101,10 @@ while(True):
                         </body>
                         </html>
                         """
-                    http_req = bytes("HTTP/1.0 404 Not found\nContent-Type: text/html\n\n"+body, 'ascii')
+                    http_req = bytes("HTTP/1.0 404 Not found\nContent-Type: text/html\n\n"+body, 'utf-8')
                     client.send(http_req)
-            except:
+            except Exception as e:
+                print(e)
                 print("except")
             client.close()
             '''
