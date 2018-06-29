@@ -39,7 +39,7 @@ def gen(camera):
         intense = (np.mean(intense_per_pix))
         d_intense = intense - last_intense
         #print(intense_per_pix)
-        print("Current quality: ", q)
+        #print("Current quality: ", q)
         q -= 1
         if d_intense > 0.01:
             bias = np.where(intense_per_pix < 0.1, intense_per_pix, 25)
@@ -53,8 +53,7 @@ def gen(camera):
 
 def get_client_data(c):
     resp = (client.recv(1000)).decode('utf-8')
-    #resp = unicode(resp, errors='replace')
-    print(resp)
+    #print(resp)
     request = resp.split()[1].partition("/")[-1]
     return request
 
@@ -69,8 +68,6 @@ while(True):
             print("Get request: ",request)
             try:
                 if(request == "png"):
-                    #image = open("./"+request, 'rb')
-                    #body = image.read();        
                     body = frame_transform2bytes(camera.get_frame(), 100)
                     http_req = bytes("HTTP/1.0 200 OK\nContent-Type: image/png\n\n", 'utf-8') + body
                     client.send(http_req)
