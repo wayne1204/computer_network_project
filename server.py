@@ -69,9 +69,9 @@ class Server(object):
                 req_type, req_content = self.get_client_data(client)
                 print("REQUEST TYPE: ",req_type)
                 if(req_type == "GET"):
-                    _thread.start_new_thread(self.get_handler, (req_content))
+                    _thread.start_new_thread(self.get_handler, (req_content,))
                 elif(req_type == "POST"):
-                    _thread.start_new_thread(self.post_handler, (req_content))
+                    _thread.start_new_thread(self.post_handler, (req_content,))
 
             except Exception as e:
                 print(e)
