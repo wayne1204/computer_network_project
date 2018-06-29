@@ -53,6 +53,12 @@ class Server(object):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.bind((host, port))
         print("Stream Server Running on http://{}:{}/".format(host, port))
+    def get_client_data(self, client):
+        req = (client.recv(1000)).decode('utf-8')
+        #print(resp)
+        req_type = resp.split()[0]
+        #request = resp.split()[1].partition("/")[-1]
+        return req_type, req
     
     def run(self):
         self.s.listen(0)
@@ -60,7 +66,7 @@ class Server(object):
             client, address = self.s.accept()
             print(str(address)+" connected")
             try:
-                req_type, req_content = get_client_data(client)
+                req_type, req_content = self.get_client_data(client)
                 print("REQUEST TYPE: ",req_type)
                 if(req_type == "GET"):
                     threading.start_new_thread(self.get_handler, (req_content))
@@ -74,6 +80,7 @@ class Server(object):
 
     def get_handler(self, content):
         try:
+            content = content.split()[1].partition("/")[-1]
             if(content== "stream"):
                 http_req = bytes("HTTP/1.0 200 OK\nContent-Type: multipart/x-mixed-replace; boundary=frame\n\n", 'utf-8')
                 client.send(http_req)
@@ -98,6 +105,8 @@ class Server(object):
             client.send(http_req)
     
     def post_handler(self, content):
+        content = content.split("\n\n")[1].split("=")[-1]
+        print("POST CONTENT: ," content)
         pass
 
 
