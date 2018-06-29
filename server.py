@@ -69,16 +69,16 @@ class Server(object):
                 req_type, req_content = self.get_client_data(client)
                 print("REQUEST TYPE: ",req_type)
                 if(req_type == "GET"):
-                    _thread.start_new_thread(self.get_handler, (req_content,))
+                    _thread.start_new_thread(self.get_handler, (req_content,client))
                 elif(req_type == "POST"):
-                    _thread.start_new_thread(self.post_handler, (req_content,))
+                    _thread.start_new_thread(self.post_handler, (req_content,client))
 
             except Exception as e:
                 print(e)
                 print("except")
             client.close()
 
-    def get_handler(self, content):
+    def get_handler(self, content, client):
         try:
             content = content.split()[1].partition("/")[-1]
             if(content== "stream"):
@@ -104,7 +104,7 @@ class Server(object):
             http_req = bytes("HTTP/1.0 404 Not found\nContent-Type: text/html\n\n"+body, 'utf-8')
             client.send(http_req)
     
-    def post_handler(self, content):
+    def post_handler(self, content, client):
         content = (content.split("\n\n")[1]).split("=")[-1]
         print("POST CONTENT: ", content)
         pass
