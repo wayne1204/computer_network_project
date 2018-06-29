@@ -55,7 +55,7 @@ class Server(object):
         print("Stream Server Running on http://{}:{}/".format(host, port))
     def get_client_data(self, client):
         req = (client.recv(1000)).decode('utf-8')
-        #print(resp)
+        print(req)
         req_type = req.split()[0]
         #request = req.split()[1].partition("/")[-1]
         return req_type, req
@@ -76,7 +76,7 @@ class Server(object):
             except Exception as e:
                 print(e)
                 print("except")
-            client.close()
+            #client.close()
 
     def get_handler(self, content, client):
         try:
