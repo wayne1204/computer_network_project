@@ -56,8 +56,8 @@ class Server(object):
     def get_client_data(self, client):
         req = (client.recv(1000)).decode('utf-8')
         #print(resp)
-        req_type = resp.split()[0]
-        #request = resp.split()[1].partition("/")[-1]
+        req_type = req.split()[0]
+        #request = req.split()[1].partition("/")[-1]
         return req_type, req
     
     def run(self):
