@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <style>
@@ -47,13 +48,28 @@
         onclick="myFunction()" title="Toggle Navigation Menu">
         <i class="fa fa-bars"></i>
       </a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">
+      <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" 
+        onclick="post('', {name: 'HOME'})">
+        <i class="material-icons" style="font-size:20px">home</i>
         Home
       </a>
-      <a href="http://www.ntu.edu.tw/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Gaming</a>
-      <a href="https://www.fifa.com/worldcup/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sports</a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Online Store</a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Privacy</a>
+      <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" 
+        onclick="post('', {name: 'GAMING'})">
+        <i class="fa fa-steam" style="font-size:20px"></i>
+        Gaming
+      </a>
+      <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+        <i class="fa fa-dribbble" style="font-size:20px"></i>   
+         Sports
+      </a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+        <i class="material-icons" style="font-size:20px">store</i>
+         Online Store
+      </a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+        <i class="material-icons" style="font-size:20px">lock</i> 
+         Privacy
+      </a>
     </div>
 
     <!-- Navbar on small screens -->
@@ -93,19 +109,28 @@
         <i class="	fa fa-venus-mars  w3-padding-64"  style="font-size:128px;color:red"></i> 
         <br>
         <br>
-        <button class="w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-xlarge  w3-hover-opacity fa fa-dollar" id="demo" onclick="clicking()"> 
+        <button class="w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-large  w3-hover-opacityr" id="demo" onclick="clicking()"> 
+          <i class="fa fa-dollar"></i>
           Donate 
         </button>
         <br>
-        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-up" 
-          onclick="post('', {name: 'HIGH'})"> High Quality</button>
+        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-large w3-margin-top w3-hover-opacity" 
+          onclick="post('', {name: 'HIGH'})"> 
+          <i class="fa fa-caret-square-o-up"></i>
+           High Quality
+        </button>
         <br>
-        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-right"
-          onclick="post('', {name: 'MEDIUM'})"> Medium Quality</button>
+        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-large w3-margin-top w3-hover-opacity" 
+          onclick="post('', {name: 'MEDIUM'})"> 
+          <i class="fa fa-caret-square-o-right"></i>
+           Medium Quality
+        </button>
         <br>
-        <button class=" w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-down" 
-          onclick="post('', {name: 'LOW'})"> Low Quality</button>
-        <!-- <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top">Points</button> -->
+        <button class=" w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-large w3-margin-top w3-hover-opacity" 
+          onclick="post('', {name: 'LOW'})"> 
+          <i class="fa fa-caret-square-o-down"></i>
+          Low Quality
+        </button>
       </div>
     </div>
   </div>

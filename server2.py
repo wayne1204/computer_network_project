@@ -30,7 +30,7 @@ def motion_detector(current_frame, last_frame, last_intense):
     intense_per_pix = (diff_frame/255.)**2
     intense = (np.mean(intense_per_pix))
     diff_intense = intense - last_intense
-    return diff_intense, intense_per_pix
+    return intense, diff_intense, intense_per_pix
 
 class ClientHandler():
     def __init__(self, socket, id):
@@ -52,15 +52,16 @@ class ClientHandler():
 
         while True:
             t_frame = CAMERA.get_frame()
-            diff_intense, intense_per_pix = motion_detector(t_frame, last_frame, last_intense)
+            intense, diff_intense, intense_per_pix = motion_detector(t_frame, last_frame, last_intense)
             QUALITY -= 1
-            if(GAMING = True):
+            if(self.GAMING == True):
                 if diff_intense > 0.01:
                     QUALITY += POINTS
                     bias = np.where(intense_per_pix < 0.1, intense_per_pix, 25)
                     bias = np.where(bias > 24, bias, 0)
 
                 QUALITY = get_points(QUALITY)
+                print("Current points: ", QUALITY)
                 yield b'--frame\r\n' + b'Content-Type: image/jpeg\r\n\r\n' + \
                         frame_transform2bytes(t_frame, int(QUALITY)) + b'\r\n\r\n'
             else:
@@ -152,6 +153,12 @@ class Server(object):
     def run(self):
         self.s.listen(20)
         while(True):
+            if(len(self.client_list)):
+                print("  Adjusting BW...")
+                print("    Current # of clients: ", len(self.client_list))
+                for c in self.client_list:
+                    c.QUALITY = 100/len(self.client_list)
+                print("    Adjust QUALTY: ", 100/len(self.client_list))
             print("  Waiting for request...")
             client, address = self.s.accept()
             address = (address[0])
