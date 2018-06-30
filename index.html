@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <style>
   body,
   h1,
@@ -46,7 +47,9 @@
         onclick="myFunction()" title="Toggle Navigation Menu">
         <i class="fa fa-bars"></i>
       </a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">
+        Home
+      </a>
       <a href="http://www.ntu.edu.tw/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Gaming</a>
       <a href="https://www.fifa.com/worldcup/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sports</a>
       <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Online Store</a>
@@ -63,18 +66,18 @@
   </div>
 
   <!-- Header -->
-  <header class="w3-container w3-blue-grey  w3-center" style="padding:36px 8px">
+  <header class="w3-container w3-blue-grey  w3-center" style="padding:48px 8px">
     <h1 class=" w3-jumbo">ONLINE VIDEO STREAMING</h1>
     <p class="w3-xlarge">2018 Computer Networking Final Project</p>
-    <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Subscribe</button>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button> -->
   </header>
 
   <!-- First Grid -->
   <div class="w3-row-padding w3-padding-32 w3-container">
     <div class="w3-content">
       <div class="w3-twothird">
-        <h3>Streamer: Unknown</h3>
+        <h3>
+          <i class="glyphicon glyphicon-user"></i> Streamer:Eric Wu
+        </h3>
           <!-- <h5 class="w3-padding-32">Hi! Fuck you.</h5> -->
 
           <img id="bg" src="/stream">
@@ -90,11 +93,18 @@
         <i class="	fa fa-venus-mars  w3-padding-64"  style="font-size:128px;color:red"></i> 
         <br>
         <br>
-        <button class="w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-xlarge  w3-hover-opacity fa fa-dollar" id="demo"> Donate </button>
+        <button class="w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-xlarge  w3-hover-opacity fa fa-dollar" id="demo" onclick="clicking()"> 
+          Donate 
+        </button>
         <br>
-        <button class="w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity 	fa fa-angle-double-up" onclick="post('', {name: 'HIGH'})"> High Quality</button>
+        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-up" 
+          onclick="post('', {name: 'HIGH'})"> High Quality</button>
         <br>
-        <button class=" w3-button w3-round-xxlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity 	fa fa-angle-double-down" onclick="post('', {name: 'LOW'})"> Low Quality</button>
+        <button class="w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-right"
+          onclick="post('', {name: 'MEDIUM'})"> Medium Quality</button>
+        <br>
+        <button class=" w3-button w3-round-xlarge w3-light-grey w3-padding-large w3-xlarge w3-margin-top w3-hover-opacity  fa fa-caret-square-o-down" 
+          onclick="post('', {name: 'LOW'})"> Low Quality</button>
         <!-- <button class="w3-button w3-red w3-padding-large w3-large w3-margin-top">Points</button> -->
       </div>
     </div>
@@ -108,6 +118,7 @@
   <br>
   <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
     <h1 class="w3-margin w3-xlarge">Quote of the day: One day at a time</h1>
+    <h3 class=fa fa-truck>powered by hyes92121</h3>
   </div>
 
   <!-- Footer -->
@@ -124,9 +135,12 @@
 
   <script>
 // Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
-  document.getElementById("demo").innerHTML = "donate success!";
-}
+  function clicking() {
+    document.getElementById("demo").innerHTML = " donate success!";
+  }
+  function unclick() {
+    document.getElementById("demo").innerHTML = " Donate";
+  }
   function post(path, params, method) {
     method = "post"; // Set method to post by default if not specified.
 
