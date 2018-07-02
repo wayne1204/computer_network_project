@@ -1,4 +1,4 @@
-from server2 import Server
+from server import Server
 import sys
 
 if __name__ == '__main__':
