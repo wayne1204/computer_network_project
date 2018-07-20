@@ -1,16 +1,15 @@
-## Video Streaming with Flask Example
+# Computer Network Final Project
+2018 spring computer network project @ NTUEE
+online stream
 
-### Website
-http://www.chioka.in
+## Description
+a simple online stream implemented by Python and HTML.
 
-### Description
-Modified to support streaming out with webcams, and not just raw JPEGs.
+## Starter
+* local host
+```
+python3 app.py {port number}
+```
 
-### Credits
-Most of the code credits to Miguel Grinberg, except that I made a small tweak. Thanks!
-http://blog.miguelgrinberg.com/post/video-streaming-with-flask
+then type localhost:{port number} in youu browser
 
-### Usage
-1. Install Python dependencies: cv2, flask. (wish that pip install works like a charm)
-2. Run "python main.py".
-3. Navigate the browser to the local webpage.
