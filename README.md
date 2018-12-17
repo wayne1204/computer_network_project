@@ -1,6 +1,6 @@
 # Computer Network Final Project
 2018 spring computer network project @ NTUEE
-online strea
+online stream
 
 ## Description
 a simple online stream implemented by Python and HTML.
